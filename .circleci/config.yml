@@ -45,15 +45,15 @@ jobs:
         working_directory: ~/repo
         docker:
             - image: circleci/node:12.10
-            steps:
-                - checkout
-                - setup_remote_docker
-                - run:
-                    name: Run docker compose
-                    command: docker-compose up -d
-                - run: 
-                    name: Launch functional tests
-                    command: docker ps
+        steps:
+            - checkout
+            - setup_remote_docker
+            - run:
+                name: Run docker compose
+                command: docker-compose up -d
+            - run: 
+                name: Launch functional tests
+                command: docker ps
 workflows:
     hjshdjkgvdf:
         jobs:
