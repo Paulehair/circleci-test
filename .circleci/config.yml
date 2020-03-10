@@ -30,14 +30,7 @@ jobs:
                     sudo curl -L https://github.com/docker/compose/releases/download/1.25.4/run.sh -o /usr/local/bin/docker-compose
                     sudo chmod +x /usr/local/bin/docker-compose
             - setup_remote_docker
-            - run:
-                name: Build service
-                command: make
-            - run:
-                name: Start container
-                command: |
-                    set -x
-                    sudo docker-compose up -d
+            - run: sudo docker-compose up -d
 workflows:
     deploy:
       jobs:
