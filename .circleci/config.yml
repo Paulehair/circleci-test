@@ -15,10 +15,7 @@ jobs:
                 name: Install packages weee
                 command: yarn install
             - save_cache:
-                keys: 
-                    - dependency-cache-{{ checksum "package.json" }}
-                    - dependency-cache-{{ checksum "yarn.lock" }}
-                    - dependency-cache
+                key: dependency-cache
                 paths:
                     - ./node_modules
             - run:
@@ -34,7 +31,7 @@ jobs:
         steps:
             - checkout
             - restore_cache:
-                keys: 
+                key: 
                     - dependency-cache-{{ checksum "package.json" }}
                     - dependency-cache-{{ checksum "yarn.lock" }}
                     - dependency-cache
@@ -48,7 +45,7 @@ jobs:
         steps:
             - checkout
             - restore_cache:
-                keys: 
+                key: 
                     - dependency-cache-{{ checksum "package.json" }}
                     - dependency-cache-{{ checksum "yarn.lock" }}
                     - dependency-cache
