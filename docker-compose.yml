@@ -8,8 +8,6 @@ services:
       MYSQL_DATABASE: cicd
       MYSQL_USER: cicd
       MYSQL_PASSWORD: cicd
-    volumes:
-      - ./data:/var/lib/mysql"
     networks:
       - database
 
@@ -36,8 +34,7 @@ services:
     image: "node:alpine"
     command: node worker.js
     working_dir: /home/app
-    volumes: 
-      - ./:/home/app
+    build: .
     environment:
       AMQP_URL: "amqp://cicd:cicd@rabbitmq:5672/"
       DB_HOST: "database"
@@ -55,8 +52,7 @@ services:
     image: "node:alpine"
     command: node server.js
     working_dir: /home/app
-    volumes: 
-      - ./:/home/app
+    build: .
     ports:
       - "3000:3000"
     environment:
