@@ -16,8 +16,9 @@ jobs:
                   set -x
                   sudo curl -L https://github.com/docker/compose/releases/download/1.25.4/run.sh -o /usr/local/bin/docker-compose
                   sudo chmod +x /usr/local/bin/docker-compose
-            - run: sudo docker-compose up -d
-            - run: yarn e2e
+      - setup_remote_docker:
+        - run: docker-compose up -d
+
 workflows:
     build-and-test:
       jobs:
