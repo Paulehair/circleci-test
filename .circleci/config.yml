@@ -17,7 +17,7 @@ jobs:
             - restore_cache:
                 key: dependency-cache-{{ checksum "yarn.lock" }}
             - run:
-                name: Install npm weeeee
+                name: Install packages weee
                 command: yarn install
             - save_cache:
                 key: dependency-cache-{{ checksum "yarn.lock" }}
@@ -29,12 +29,13 @@ jobs:
                     set -x
                     sudo curl -L https://github.com/docker/compose/releases/download/1.25.4/run.sh -o /usr/local/bin/docker-compose
                     sudo chmod +x /usr/local/bin/docker-compose
-            - setup_remote_docker
+            - setup_remote_docker:
+                docker_layer_caching: true
             - run:
                 name: Start container
                 command: |
                     set -x
-                    docker-compose up -d
+                    sudo docker-compose up -d
 workflows:
     deploy:
       jobs:
