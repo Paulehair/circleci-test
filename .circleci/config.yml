@@ -6,9 +6,7 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
-      - node/with-cache:
-        steps:
-          - run: yarn install
+      - run: yarn install
       - run: yarn unit .
   build:
     docker:
@@ -16,15 +14,13 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: yarn install
-            - run:
-                name: Install Docker Compose
-                command: |
-                  set -x
-                  sudo curl -L https://github.com/docker/compose/releases/download/1.25.4/run.sh -o /usr/local/bin/docker-compose
-                  sudo chmod +x /usr/local/bin/docker-compose
+      - run: yarn install
+      - run:
+          name: Install Docker Compose
+          command: |
+            set -x
+            sudo curl -L https://github.com/docker/compose/releases/download/1.25.4/run.sh -o /usr/local/bin/docker-compose
+            sudo chmod +x /usr/local/bin/docker-compose
       - setup_remote_docker:
         steps:
           - run: docker-compose up -d
