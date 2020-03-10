@@ -1,17 +1,17 @@
 version: 2.1
 jobs:
-  unit_test:
-    working_directory: ~/repo
-    docker:
-        - image: circleci/node:12.10
-    steps:
-        - checkout
-        - run:
-            name: Install packages weee
-            command: yarn install
-        - run: 
-            name: Launch unit test
-            command: yarn unit
+    unit_test:
+        working_directory: ~/repo
+        docker:
+            - image: circleci/node:12.10
+        steps:
+            - checkout
+            - run:
+                name: Install packages weee
+                command: yarn install
+            - run: 
+                name: Launch unit test
+                command: yarn unit
     build_docker:
         working_directory: ~/repo
         docker:
@@ -38,7 +38,7 @@ jobs:
                 name: Run docker compose
                 command: docker-compose up -d
 workflows:
-    deploy:
+    hjshdjkgvdf:
         jobs:
             - unit_test
             - build_docker
