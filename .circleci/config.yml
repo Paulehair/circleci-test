@@ -31,6 +31,9 @@ jobs:
                     sudo chmod +x /usr/local/bin/docker-compose
             - setup_remote_docker
             - run:
+                name: Build service
+                command: make
+            - run:
                 name: Start container
                 command: |
                     set -x
