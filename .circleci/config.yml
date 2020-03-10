@@ -58,7 +58,7 @@ jobs:
                 command: docker ps
             - run:
                 name: Migration
-                command: docker exec server node migration.js up
+                command: docker exec repo_server_1 node migration.js up
             - run: 
                 name: Launch functional tests
                 command: docker exec repo_server_1 npm run e2e
