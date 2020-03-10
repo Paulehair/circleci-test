@@ -32,8 +32,7 @@ jobs:
             - setup_remote_docker
             - run:
                 name: Run docker compose
-                command: sudo docker-compose up
-                background: true
+                command: docker-compose up -d
 workflows:
     deploy:
       jobs:
