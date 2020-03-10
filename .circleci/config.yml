@@ -57,11 +57,11 @@ jobs:
                 name: View docker containers
                 command: docker ps
             - run:
-                name: Migration
-                command: docker exec repo_server_1 node migrations.js up
-            - run:
                 name: Wait db connection
                 command: sleep 20
+            - run:
+                name: Migration
+                command: docker exec repo_server_1 node migrations.js up
             - run: 
                 name: Launch functional tests
                 command: docker exec repo_server_1 npm run e2e
