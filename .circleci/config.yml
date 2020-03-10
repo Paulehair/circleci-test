@@ -1,13 +1,23 @@
 version: 2.1
 jobs:
-  # unit_test:
-  #   docker:
-  #     - image: circleci/node:10.16.3
-  #   steps:
-  #     - checkout
-  #     - node/with-cache:
-  #       - run: yarn install
-  #     - run: yarn unit
+  unit_test:
+    working_directory: ~/repo
+    docker:
+        - image: circleci/node:12.10
+    steps:
+        - checkout
+        - restore_cache:
+            key: dependency-cache-{{ checksum "yarn.lock" }}
+        - run:
+            name: Install packages weee
+            command: yarn install
+        - save_cache:
+            key: dependency-cache-{{ checksum "yarn.lock" }}
+            paths:
+                - ./node_modules
+        - run: 
+            name: Launch unit test
+            command: yarn unit
     build_docker:
         working_directory: ~/repo
         docker:
@@ -35,6 +45,6 @@ jobs:
                 command: docker-compose up -d
 workflows:
     deploy:
-      jobs:
-        # - unit_test
-        - build_docker
+        jobs:
+            - unit_test
+            - build_docker
