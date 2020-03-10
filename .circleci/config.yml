@@ -31,7 +31,7 @@ jobs:
         steps:
             - checkout
             - restore_cache:
-                key: 
+                keys: 
                     - dependency-cache-{{ checksum "package.json" }}
                     - dependency-cache-{{ checksum "yarn.lock" }}
                     - dependency-cache
@@ -45,7 +45,7 @@ jobs:
         steps:
             - checkout
             - restore_cache:
-                key: 
+                keys: 
                     - dependency-cache-{{ checksum "package.json" }}
                     - dependency-cache-{{ checksum "yarn.lock" }}
                     - dependency-cache
