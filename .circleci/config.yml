@@ -59,6 +59,9 @@ jobs:
             - run:
                 name: Migration
                 command: docker exec repo_server_1 node migrations.js up
+            - run:
+                name: Wait db connection
+                command: sleep 20
             - run: 
                 name: Launch functional tests
                 command: docker exec repo_server_1 npm run e2e
