@@ -1,30 +1,24 @@
 version: 2.1
 jobs:
-    unit_test:
-        working_directory: ~/repo
-        docker:
-            - image: circleci/node:12.10
-        steps:
-            - checkout
-            - run:
-                name: Install packages weee
-                command: yarn install
-            - run: 
-                name: Launch unit test
-                command: yarn unit
-    build_docker:
+    install:
         working_directory: ~/repo
         docker:
             - image: circleci/node:12.10
         steps:
             - checkout
             - restore_cache:
-                key: dependency-cache-{{ checksum "yarn.lock" }}
+                keys: 
+                    - dependency-cache-{{ checksum "package.json" }}
+                    - dependency-cache-{{ checksum "yarn.lock" }}
+                    - dependency-cache
             - run:
                 name: Install packages weee
                 command: yarn install
             - save_cache:
-                key: dependency-cache-{{ checksum "yarn.lock" }}
+                keys: 
+                    - dependency-cache-{{ checksum "package.json" }}
+                    - dependency-cache-{{ checksum "yarn.lock" }}
+                    - dependency-cache
                 paths:
                     - ./node_modules
             - run:
@@ -33,12 +27,40 @@ jobs:
                     set -x
                     sudo curl -L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
                     sudo chmod +x /usr/local/bin/docker-compose
-            - setup_remote_docker
-            - run:
-                name: Run docker compose
-                command: docker-compose up -d
+    unit_test:
+        working_directory: ~/repo
+        docker:
+            - image: circleci/node:12.10
+        steps:
+            - checkout
+            - restore_cache:
+                keys: 
+                    - dependency-cache-{{ checksum "package.json" }}
+                    - dependency-cache-{{ checksum "yarn.lock" }}
+                    - dependency-cache
+            - run: 
+                name: Launch unit test
+                command: yarn unit
+    launch_docker_compose:
+        working_directory: ~/repo
+        docker:
+            - image: circleci/node:12.10
+            steps:
+                - checkout
+                - setup_remote_docker
+                - run:
+                    name: Run docker compose
+                    command: docker-compose up -d
+                - run: 
+                    name: Launch functional tests
+                    command: docker ps
 workflows:
     hjshdjkgvdf:
         jobs:
-            - unit_test
-            - build_docker
+            - install
+            - unit_test:
+                requires: 
+                    - install
+            - launch_docker_compose: 
+                requires: 
+                    - install
