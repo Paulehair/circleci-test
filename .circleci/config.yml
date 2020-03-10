@@ -8,8 +8,7 @@ jobs:
     steps:
       - checkout
       - node/with-cache:
-        steps:
-          - run: yarn install
+        - run: yarn install
       - run: yarn unit .
   build_docker:
     executor:
@@ -27,7 +26,11 @@ jobs:
                   sudo chmod +x /usr/local/bin/docker-compose
       - setup_remote_docker:
         steps:
-          - run: docker-compose up -d
+          - run:
+            name: Start container
+            command: |
+              set -x
+              docker-compose up -d
 workflows:
     deploy:
       jobs:
