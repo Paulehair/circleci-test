@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   node: circleci/node@1.1.6
 jobs:
-  unit-test:
+  unit_test:
     executor:
       name: node/default
     steps:
@@ -11,7 +11,7 @@ jobs:
         steps:
           - run: yarn install
       - run: yarn unit .
-  build:
+  build_docker:
     executor:
       name: node/default
     steps:
@@ -29,7 +29,7 @@ jobs:
         steps:
           - run: docker-compose up -d
 workflows:
-    build:
+    deploy:
       jobs:
-        - unit-test
-        - build
+        - unit_test
+        - build_docker
